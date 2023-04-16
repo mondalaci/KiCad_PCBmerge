@@ -83,7 +83,7 @@ def tempfilename():
             pass
 
 def fill_all_areas(pcb):
-    for i in range(0, pcb.GetAreaCount()):
+    for i in range(pcb.GetAreaCount()):
         area = pcb.GetArea(i)
         area.ClearFilledPolysList()
         area.UnFill()
@@ -92,7 +92,7 @@ def fill_all_areas(pcb):
         area.BuildFilledSolidAreasPolygons(pcb)
 
 def combine_all_areas(pcb):
-    for i in range(0, pcb.GetNetCount()):
+    for i in range(pcb.GetNetCount()):
         pcb.CombineAllAreasInNet(None, i, False)
 
 def merge(pcb, base_anchor, addon_anchor, pcb_tmp, postfix = "-ADDON"):
@@ -148,5 +148,5 @@ def merge(pcb, base_anchor, addon_anchor, pcb_tmp, postfix = "-ADDON"):
     for drawing in drawings:
         move(drawing, displacement)
 
-    for i in range(0, zonescount):
+    for i in range(zonescount):
         move(pcb.GetArea(i), displacement)
