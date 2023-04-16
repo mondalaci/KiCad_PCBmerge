@@ -95,10 +95,8 @@ def combine_all_areas(pcb):
     for i in range(0, pcb.GetNetCount()):
         pcb.CombineAllAreasInNet(None, i, False)
 
-def merge(pcb, base_anchor, addon_anchor, filename, postfix = "-ADDON"):
+def merge(pcb, base_anchor, addon_anchor, pcb_tmp, postfix = "-ADDON"):
     base_anchor_module = find_module_by_value(pcb, base_anchor)
-
-    pcb_tmp = LoadBoard(filename)
     addon_anchor_module = find_module_by_value(pcb_tmp, addon_anchor)
 
     displacement = calculate_displacement(base_anchor_module, addon_anchor_module)
