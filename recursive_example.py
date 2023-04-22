@@ -12,7 +12,7 @@ for i in range(0, 16):
     pcbmerge.merge(pcb = mypcb,
                    base_anchor = anchor,
                    addon_anchor = "IN",
-                   filename = "example_led/led.kicad_pcb",
+                   pcb_tmp = LoadBoard("example_led/led.kicad_pcb"),
                    postfix = "-LED-"+str(i))
 
     anchor = "OUT_"+str(i)
@@ -20,9 +20,8 @@ for i in range(0, 16):
 
 
 # Combine and refill areas
-pcbmerge.combine_all_areas(mypcb)
-pcbmerge.fill_all_areas(mypcb)
+# pcbmerge.combine_all_areas(mypcb)
+# pcbmerge.fill_all_areas(mypcb)
 
 # Save output
 SaveBoard("recursive.kicad_pcb", mypcb)
-
