@@ -154,5 +154,4 @@ def merge(pcb, base_anchor, addon_anchor, pcb_tmp, postfix = "-ADDON"):
 def rename_nets(pcb, renamerFunction):
     for i in range(1, pcb.GetNetCount()):
         net = pcb.FindNet(i)
-        print(net.GetNetname(), '->', renamerFunction(net.GetNetname()))
         net.SetNetname(renamerFunction(net.GetNetname()))
