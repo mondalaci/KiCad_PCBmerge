@@ -113,11 +113,11 @@ def merge(pcb, base_anchor, addon_anchor, pcb_tmp, postfix = "-ADDON"):
         name = pcb_tmp.FindNet(i).GetNetname()
         new_netnames[name] = name+postfix
 
-    for (a,b) in zip(base_anchor_module.Pads(), addon_anchor_module.Pads()):
-        new_netnames[b.GetNet().GetNetname()] = a.GetNet().GetNetname()
+    # for (a,b) in zip(base_anchor_module.Pads(), addon_anchor_module.Pads()):
+    #     new_netnames[b.GetNet().GetNetname()] = a.GetNet().GetNetname()
 
     # Remove anchor
-    pcb_tmp.Remove(addon_anchor_module)
+    # pcb_tmp.Remove(addon_anchor_module)
 
     with tempfilename() as fname:
         # Write addon to temporary file
@@ -128,8 +128,8 @@ def merge(pcb, base_anchor, addon_anchor, pcb_tmp, postfix = "-ADDON"):
         with open(fname) as fp:
             pcbtext = fp.read()
 
-        for (old,new) in new_netnames.items():
-            pcbtext = pcbtext.replace(old,new)
+        # for (old,new) in new_netnames.items():
+        #     pcbtext = pcbtext.replace(old,new)
 
         with open(fname,'w') as fp:
             fp.write(pcbtext)
@@ -150,3 +150,9 @@ def merge(pcb, base_anchor, addon_anchor, pcb_tmp, postfix = "-ADDON"):
 
     for i in range(zonescount):
         move(pcb.GetArea(i), displacement)
+
+def rename_nets(pcb, renamerFunction):
+    for i in range(1, pcb.GetNetCount()):
+        net = pcb.FindNet(i)
+        print(net.GetNetname(), '->', renamerFunction(net.GetNetname()))
+        net.SetNetname(renamerFunction(net.GetNetname()))
