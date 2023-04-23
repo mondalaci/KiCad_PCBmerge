@@ -100,6 +100,7 @@ def merge(pcb, base_anchor, addon_anchor, pcb_tmp, postfix = "-ADDON"):
     addon_anchor_module = find_module_by_value(pcb_tmp, addon_anchor)
 
     displacement = calculate_displacement(base_anchor_module, addon_anchor_module)
+    reverse_displacement = calculate_displacement(addon_anchor_module, base_anchor_module)
 
     # Remember existing elements in base
     tracks = pcb.GetTracks()
@@ -138,18 +139,25 @@ def merge(pcb, base_anchor, addon_anchor, pcb_tmp, postfix = "-ADDON"):
         plugin = IO_MGR.PluginFind(IO_MGR.KICAD_SEXP)
         plugin.Load(fname, pcb)
 
-    # Move
+    # Move the objects of the pcb (but not the pcb_tmp) board so that the anchors line up
     for track in tracks:
         move(track, displacement)
-
     for footprint in footprints:
         move(footprint, displacement)
-
     for drawing in drawings:
         move(drawing, displacement)
-
     for i in range(zonescount):
         move(pcb.GetArea(i), displacement)
+
+    # Move all objects by reverse_displacement so that the pcb board is back to its original position
+    for track in pcb.GetTracks():
+        move(track, reverse_displacement)
+    for footprint in pcb.GetFootprints():
+        move(footprint, reverse_displacement)
+    for drawing in pcb.GetDrawings():
+        move(drawing, reverse_displacement)
+    for i in range(pcb.GetAreaCount()):
+        move(pcb.GetArea(i), reverse_displacement)
 
 def rename_nets(pcb, renamerFunction):
     for i in range(1, pcb.GetNetCount()):
