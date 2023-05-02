@@ -95,7 +95,7 @@ def combine_all_areas(pcb):
     for i in range(pcb.GetNetCount()):
         pcb.CombineAllAreasInNet(None, i, False)
 
-def merge(pcb, base_anchor, addon_anchor, pcb_tmp, postfix = "-ADDON"):
+def merge(pcb, base_anchor, addon_anchor, pcb_tmp):
     base_anchor_module = find_module_by_value(pcb, base_anchor)
     addon_anchor_module = find_module_by_value(pcb_tmp, addon_anchor)
 
@@ -108,15 +108,6 @@ def merge(pcb, base_anchor, addon_anchor, pcb_tmp, postfix = "-ADDON"):
     drawings = pcb.GetDrawings()
     zonescount = pcb.GetAreaCount()
 
-    # Determine new net names
-    new_netnames = {}
-    for i in range(1, pcb_tmp.GetNetCount()): # 0 is unconnected net
-        name = pcb_tmp.FindNet(i).GetNetname()
-        new_netnames[name] = name+postfix
-
-    # for (a,b) in zip(base_anchor_module.Pads(), addon_anchor_module.Pads()):
-    #     new_netnames[b.GetNet().GetNetname()] = a.GetNet().GetNetname()
-
     # Remove anchor
     # pcb_tmp.Remove(addon_anchor_module)
 
@@ -128,9 +119,6 @@ def merge(pcb, base_anchor, addon_anchor, pcb_tmp, postfix = "-ADDON"):
         pcbtext = None
         with open(fname) as fp:
             pcbtext = fp.read()
-
-        # for (old,new) in new_netnames.items():
-        #     pcbtext = pcbtext.replace(old,new)
 
         with open(fname,'w') as fp:
             fp.write(pcbtext)
