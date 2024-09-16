@@ -147,7 +147,12 @@ def merge(pcb, base_anchor, addon_anchor, pcb_tmp):
     for i in range(pcb.GetAreaCount()):
         move(pcb.GetArea(i), reverse_displacement)
 
-def rename_nets(pcb, renamerFunction):
+def rename_board(pcb, renamerFunction, renameFootprints):
+    if renameFootprints:
+        for footprint in pcb.GetFootprints():
+            referenceName = footprint.Reference().GetShownText()
+            footprint.Reference().SetText(renamerFunction(referenceName))
+
     for i in range(1, pcb.GetNetCount()):
         net = pcb.FindNet(i)
         net.SetNetname(renamerFunction(net.GetNetname()))
