@@ -124,8 +124,8 @@ def merge(pcb, base_anchor, addon_anchor, pcb_tmp):
             fp.write(pcbtext)
 
         # Append new board file with modified net names
-        plugin = IO_MGR.PluginFind(IO_MGR.KICAD_SEXP)
-        plugin.Load(fname, pcb)
+        plugin = PCB_IO_MGR.PluginFind(PCB_IO_MGR.KICAD_SEXP)
+        plugin.LoadBoard(fname, pcb)
 
     # Move the objects of the pcb (but not the pcb_tmp) board so that the anchors line up
     for track in tracks:
